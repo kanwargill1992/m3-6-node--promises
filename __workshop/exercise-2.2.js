@@ -2,18 +2,25 @@
 // ----------------------
 
 // require the 'request-promise' module.
-const request = require('request-promise');
+const request = require("request-promise");
 
 const greeting = (langCode) => {
-  return request('<URL>') // 1
-    .then((response) => JSON.parse(response))
-    .then((parsedResponse) => {
-      return; // 2
+  return request(`https://journeyedu.herokuapp.com/hello/${langCode}`) // 1
+    .then((response) => {
+      const parsedRes = JSON.parse(response);
+      // console.log("here", parsedRes);
+      return parsedRes;
     })
-    .catch((err) => console.log('Error: ', err));
+    .then((parsedResponse) => {
+      const parsedRes1 = parsedResponse.data.text;
+      return parsedRes1;
+    })
+    .catch((err) => console.log("Error: ", err));
 };
 
 // Testing
-greeting('fr').then((result) => console.log(result)); // { lang: "French", code: "FR", text: "Bonjour" }
+greeting("fr").then((result) => console.log(result)); // { lang: "French", code: "FR", text: "Bonjour" }
+greeting("EN").then((result) => console.log(result));
+greeting("Pb").then((result) => console.log(result));
 
 // 3
